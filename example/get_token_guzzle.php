@@ -50,12 +50,34 @@ $order = json_decode($response->getBody(), true);
 print_r($order);
 
 // get Customer
-$response = $apiClient->get('customers/' . $order['customer']['id'])->getBody();
+$response = $apiClient->get('customers/' . $order['customer']['id'])
+    ->getBody();
 $customer = json_decode($response, true);
 print_r($customer);
 
 // get Product
-$response = $apiClient->get('products/' . $order['line_items'][0]['product_id'])->getBody();
+$response = $apiClient->get('products/' . $order['line_items'][0]['product_id'])
+    ->getBody();
 $product = json_decode($response, true);
 print_r($product);
 
+// create new product
+$productData = [
+    'title' => 'New Product',
+];
+$response = $apiClient->post('products', ['form_params' => $productData])
+    ->getBody();
+$product = json_decode($response, true);
+print_r($product);
+
+
+// update product
+$productData = [
+    'title' => 'Updated Product',
+];
+$response = $apiClient->put('products/' . $product['id'], ['form_params' => $productData]);
+
+$response = $apiClient->get('products/' . $product['id'])
+    ->getBody();
+$product = json_decode($response, true);
+print_r($product);
