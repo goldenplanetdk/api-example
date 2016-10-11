@@ -64,6 +64,10 @@ print_r($product);
 // create new product
 $productData = [
     'title' => 'New Product',
+    'images' => [
+        ['src' => 'http://webshopdemo.dk/media/cache/product_info_main_thumb/product-images/6/audio1-1.jpg'],
+        ['src' => 'http://webshopdemo.dk/media/cache/product_info_main_thumb/product-images/9/coffee1-1.jpg'],
+    ],
 ];
 $response = $apiClient->post('products', ['form_params' => $productData])
     ->getBody();
