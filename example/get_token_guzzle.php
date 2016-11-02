@@ -18,7 +18,7 @@ $credentials = [
     'client_secret' => $clientSecret,
 ];
 
-$client = new GuzzleHttp\Client(['base_uri' => $apiUrl]);
+$client = new GuzzleHttp\Client(['base_uri' => $tokenUrl]);
 
 // get access token
 $response = $client->post('token', [
@@ -85,3 +85,48 @@ $response = $apiClient->get('products/' . $product['id'])
     ->getBody();
 $product = json_decode($response, true);
 print_r($product);
+
+// get products updated during last 30 minutes
+$response = $apiClient->get('products', ['query' => ['updated_from' => '30 minutes']])
+    ->getBody();
+$products = json_decode($response, true);
+print_r($products);
+
+// get products created during last 2 hours
+$response = $apiClient->get('products', ['query' => ['created_from' => '2 hours']])
+    ->getBody();
+$products = json_decode($response, true);
+print_r($products);
+
+// get discount groups
+$response = $apiClient->get('discountgroups')
+    ->getBody();
+$discounts = json_decode($response, true);
+print_r($discounts);
+
+// create discount group
+$discountData = [
+    'title' => 'VIP group',
+    'comment' => 'vip members'
+];
+$response = $apiClient->post('discountgroups', ['form_params' => $discountData])
+    ->getBody();
+$discount = json_decode($response, true);
+print_r($discount);
+
+// delete the first
+$response = $apiClient->delete('discountgroups/'. $discounts[0]['id'])
+    ->getBody();
+$result = json_decode($response, true);
+print_r($result);
+
+// update created group
+$discountData = [
+    'title' => 'super VIP group',
+    'comment' => 'only cool dude here'
+];
+$response = $apiClient->put('discountgroups/' . $discount['id'], ['form_params' => $discountData])
+    ->getBody();
+var_dump((string)$response);
+$discount = json_decode($response, true);
+print_r($discount);
