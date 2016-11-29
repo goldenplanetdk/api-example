@@ -22,7 +22,7 @@ $client = new GuzzleHttp\Client(['base_uri' => $tokenUrl]);
 
 // get access token
 $response = $client->post('token', [
-    'form_params' => $credentials,
+    'json' => $credentials,
 ]);
 $tokenData = json_decode($response->getBody(), true);
 $accessToken = $tokenData['access_token'];
@@ -69,7 +69,7 @@ $productData = [
         ['src' => 'http://webshopdemo.dk/media/cache/product_info_main_thumb/product-images/9/coffee1-1.jpg'],
     ],
 ];
-$response = $apiClient->post('products', ['form_params' => $productData])
+$response = $apiClient->post('products', ['json' => $productData])
     ->getBody();
 $product = json_decode($response, true);
 print_r($product);
@@ -79,7 +79,7 @@ print_r($product);
 $productData = [
     'title' => 'Updated Product',
 ];
-$response = $apiClient->put('products/' . $product['id'], ['form_params' => $productData]);
+$response = $apiClient->put('products/' . $product['id'], ['json' => $productData]);
 
 $response = $apiClient->get('products/' . $product['id'])
     ->getBody();
@@ -109,7 +109,7 @@ $discountData = [
     'title' => 'VIP group',
     'comment' => 'vip members'
 ];
-$response = $apiClient->post('discountgroups', ['form_params' => $discountData])
+$response = $apiClient->post('discountgroups', ['json' => $discountData])
     ->getBody();
 $discount = json_decode($response, true);
 print_r($discount);
@@ -125,7 +125,7 @@ $discountData = [
     'title' => 'super VIP group',
     'comment' => 'only cool dude here'
 ];
-$response = $apiClient->put('discountgroups/' . $discount['id'], ['form_params' => $discountData])
+$response = $apiClient->put('discountgroups/' . $discount['id'], ['json' => $discountData])
     ->getBody();
 var_dump((string)$response);
 $discount = json_decode($response, true);

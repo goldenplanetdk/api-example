@@ -22,7 +22,7 @@ $client = new GuzzleHttp\Client(['base_uri' => $tokenUrl]);
 
 // get access token
 $response = $client->post('token', [
-    'form_params' => $credentials,
+    'json' => $credentials,
 ]);
 $tokenData = json_decode($response->getBody(), true);
 $accessToken = $tokenData['access_token'];
@@ -41,7 +41,7 @@ $discountData = [
     'title' => 'VIP group',
     'comment' => 'vip members'
 ];
-$response = $apiClient->post('discountgroups', ['form_params' => $discountData])
+$response = $apiClient->post('discountgroups', ['json' => $discountData])
     ->getBody();
 $vip = json_decode($response, true);
 print_r($vip);
@@ -56,7 +56,7 @@ $productData = [
         ],
     ]
 ];
-$response = $apiClient->post('products', ['form_params' => $productData])
+$response = $apiClient->post('products', ['json' => $productData])
     ->getBody();
 $product = json_decode($response, true);
 print_r($product);
