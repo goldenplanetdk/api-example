@@ -47,7 +47,7 @@ $productData = [
 		]
 	]
 ];
-$response = $apiClient->post('products', ['form_params' => $productData])
+$response = $apiClient->post('products', ['json' => $productData])
 	->getBody();
 $product = json_decode($response, true);
 print_r($product);
@@ -77,7 +77,7 @@ $productData = [
 		]
 	]
 ];
-$response = $apiClient->put('products/' . $product['id'], ['form_params' => $productData]);
+$response = $apiClient->put('products/' . $product['id'], ['json' => $productData]);
 
 $response = $apiClient->get('products/' . $product['id'])
 	->getBody();
@@ -91,12 +91,12 @@ $data = [
 	"raw_price" => "+0",
 	"quantity" => 2,
 	"attribute_values" => [
-		["attributeValue" => 1],
+		["attributeValue" => 3],
 		["attributeValue" => 6]
 	]
 ];
 
-$response = $apiClient->post('products/' . $product['id'] . '/variants', ['form_params' => $data])
+$response = $apiClient->post('products/' . $product['id'] . '/variants', ['json' => $data])
 	->getBody();
 $variant = json_encode($response);
 
@@ -106,7 +106,7 @@ $data = [
 	"quantity" => 1,
 ];
 
-$response = $apiClient->put('products/' . $product['id'] . '/variants/' . $variant['id'], ['form_params' => $data])
+$response = $apiClient->put('products/' . $product['id'] . '/variants/' . $variant['id'], ['json' => $data])
 	->getBody();
 
 // delete product variant

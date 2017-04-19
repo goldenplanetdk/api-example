@@ -14,7 +14,7 @@ $data = [
 	]
 ];
 /** @var Api $response */
-$response = $apiClient->post('attributes', ['form_params' => $data])
+$response = $apiClient->post('attributes', ['json' => $data])
 	->getBody();
 $attribute = json_decode($response, true);
 
@@ -24,7 +24,7 @@ $data = [
 	"title" => "Third"
 ];
 
-$response = $apiClient->post('attributes/' . $attribute['id'] . '/values', ['form_params' => $data])
+$response = $apiClient->post('attributes/' . $attribute['id'] . '/values', ['json' => $data])
 	->getBody();
 $attributeValue = json_decode($response, true);
 
@@ -34,7 +34,7 @@ $data = [
 	"title" => "Third updated"
 ];
 
-$response = $apiClient->put('attributes/' . $attribute['id'] . '/values/' . $attributeValue['id'], ['form_params' => $data])
+$response = $apiClient->put('attributes/' . $attribute['id'] . '/values/' . $attributeValue['id'], ['json' => $data])
 	->getBody();
 
 
