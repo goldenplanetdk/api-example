@@ -9,6 +9,7 @@ Shop API documentation: `/api/doc` (e.g. webshopdemo.dk/api/doc)
 2. Send request to API with access token
 
 ## Request access token
+### Access token will be expired after XXX seconds. Check **expires_in** token data field.
 
 API_CLIENT_ID and API_CLIENT_SECRET access data can be found at /admin/api-token in the backend (for instance webshopdemo.dk/admin/api-token). 
 
@@ -16,6 +17,17 @@ Using **bash**
 ```bash
 curl -XPOST  http://SHOP_DOMAIN/oauth/v2/token -d "client_id=CLIENT_ID&client_secret=CLIENT_SECRET&grant_type=client_credentials"
 ```
+
+**Response**
+```json
+{
+  "access_token": "MmQwZTY1NjRlZDFjY2QzYjUyNWEwNzUyNWQ1ZTQ2ZTAwNWVkYWNmM2IxMDMxMGZjNDJmMzJjYzQwZWZjNzNlZg",
+  "expires_in": 3600,
+  "token_type": "bearer",
+  "scope": "read write"
+}
+```
+
 
 Using **php** Guzzle library 
 ```php
@@ -33,6 +45,7 @@ $tokenData = json_decode($response->getBody(), true);
 
 $accessToken = $tokenData['access_token'];
 ```
+##Warning: Request new access token after first one will be expired!!! 
 
 ## Request orders list
 
