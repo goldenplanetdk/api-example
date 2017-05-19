@@ -45,6 +45,7 @@ $tokenData = json_decode($response->getBody(), true);
 
 $accessToken = $tokenData['access_token'];
 ```
+
 ##Warning: Request new access token after first one will be expired!!! 
 
 ## Request orders list
