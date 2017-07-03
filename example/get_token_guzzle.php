@@ -12,7 +12,7 @@ if (!$accessToken) {
     $config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../config/parameters.yml'));
 
     $shopUrl = 'http://' . $config['parameters']['shop_domain']; // obb shop url
-    $apiUrl = $shopUrl . "/api/v1/";
+    $apiUrl = $shopUrl . "/api/v2/";
     $tokenUrl = $shopUrl . "/oauth/v2/";
     $clientId = $config['parameters']['api_client_id']; // API Client ID from /admin/api-token page
     $clientSecret = $config['parameters']['api_client_secret']; // API Client Secret from /admin/api-token page

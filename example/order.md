@@ -1,6 +1,9 @@
-## Order
+# Order
 
-To create an order:
+## Create new order
+
+Send request to `api/v2/orders.json`:
+
 ```json
 {
   "customer": {
@@ -21,7 +24,6 @@ To create an order:
   }
 }
 ```
-
 
 To create an order with lines:
 
@@ -85,21 +87,9 @@ To create an order with lines:
 }
 ```
 
-Let's imagine you have an order with 3 product lines and you need to delete first one. To do this send PUT request with such json:
-```json
-{
-  "lines": {
-    "products": {
-      "1": {},
-      "2": {}
-    },
-    "shipping": null
-  }
-}
-```
-Zero(first) line will be removed, 2nd and 3rd lines will stay as is.
+## Update order
 
-To update lines data use PUT request with such json:
+To update lines data send  PUT request with such json to `api/v2/orders/<order_id>.json`::
 ```json
 {
   "lines": {
@@ -122,6 +112,7 @@ If you need to create order with exact id and/or creation date do like this(work
 }
 ```
 
+### Add new line
 Let's imagine you want to add new product line to the order with 2 product lines:
 ```json
 {
@@ -135,7 +126,23 @@ Let's imagine you want to add new product line to the order with 2 product lines
 }
 ```
 
-To remove lines:
+### Remove lines
+
+Let's imagine you have an order with 3 product lines and you need to delete first one. To do this send PUT request with such json:
+```json
+{
+  "lines": {
+    "products": {
+      "1": {},
+      "2": {}
+    },
+    "shipping": null
+  }
+}
+```
+Zero(first) product line will be removed, 2nd and 3rd lines will stay as is. Shipping line will be removed as well.
+
+To remove all lines:
 ```json
 {
   "lines": {
@@ -146,6 +153,7 @@ To remove lines:
 
 ## Invoice
 
+Send request to `api/v2/orders/<order_id>/invoice.json`:
 ```json
 {
   "notify": true
