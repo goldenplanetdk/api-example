@@ -124,3 +124,9 @@ $response = $apiClient->get('products', ['query' => ['created_from' => '2 hours'
 	->getBody();
 $products = json_decode($response, true);
 print_r($products);
+
+// get products with ids 1,2,111
+$response = $apiClient->get('products', ['query' => ['ids' => '1,2,111']])
+	->getBody();
+$products = json_decode($response, true);
+print_r($products);
