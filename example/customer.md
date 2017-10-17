@@ -48,3 +48,5 @@ Send POST request to `api/v2/customers/{customer}/addresses.json`:
     "zip": "6000"
 }
 ``` 
+
+Unlike billing addresses customer could have multiple shipping addresses.
