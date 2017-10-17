@@ -28,7 +28,7 @@ Send PUT request to `api/v2/customers/{customer}.json`:
 {
         "email": "john.smith@nowhere.domain",
         "billing_address": {
-            "phone": ""
+            "phone": "",
             "country": "DNK"
         }
 }
@@ -40,7 +40,7 @@ Send POST request to `api/v2/customers/{customer}/addresses.json`:
 
 ```json
 {
-    "company_name": "GoldenPlanet"
+    "company_name": "GoldenPlanet",
     "street": "Dalbygade 40a",
     "name": "John Doe",
     "city": "Kolding",
