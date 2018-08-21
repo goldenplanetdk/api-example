@@ -33,7 +33,7 @@ First operation will update product with id 11, second operation will create new
 There is no limit how many operations could be inside one request, you are limited with only length of POST request on our server. But we advise to start from 1000.
 
 If everything is valid batch command will be created and you will get ID of it in response.
-Use this to make GET request to `api/products/batches/<ID>.json` in order to obtain current status of batch command. You should get response like this:
+Use this to make GET request to `api/batches/<ID>.json` in order to obtain current status of batch command. You should get response like this:
 
 ```json
 {
