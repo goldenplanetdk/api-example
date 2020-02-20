@@ -153,14 +153,14 @@ To remove all lines:
 
 ## Invoice
 
-Send request to `api/v2/orders/<order_id>/invoice.json`:
+Send POST request to `api/v2/orders/<order_id>/invoice.json`:
 ```json
 {
   "notify": true
 }
 ```
 
-Or if need exact id and/or date:
+Or if you need to generate an invoice with exact id and/or date:
 ```json
 {
   "id": 444,
