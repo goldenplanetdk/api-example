@@ -151,6 +151,18 @@ To remove all lines:
 }
 ```
 
+## Notify a customer when the order status change
+Send PUT request to `api/v2/orders/<order_id>.json?notify=true`:
+
+```json
+{
+  ...
+  "status": 5,
+  ...
+}
+```
+
+
 ## Invoice
 
 Send request to `api/v2/orders/<order_id>/invoice.json`:
