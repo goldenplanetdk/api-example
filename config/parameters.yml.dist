@@ -1,4 +1,4 @@
 parameters:
-    shop_domain:
+    shop_url:
     api_client_id:
     api_client_secret:

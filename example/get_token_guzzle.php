@@ -5,13 +5,13 @@
  */
 require __DIR__ . '/../vendor/autoload.php';
 
-$accessToken = apcu_fetch('access_token');
+$accessToken = function_exists('apcu_fetch') ? apcu_fetch('access_token') : null;
 
 if (!$accessToken) {
 
     $config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/../config/parameters.yml'));
 
-    $shopUrl = 'http://' . $config['parameters']['shop_domain']; // obb shop url
+    $shopUrl = trim($config['parameters']['shop_url'], '/'); // obb shop url
     $apiUrl = $shopUrl . "/api/v1/";
     $tokenUrl = $shopUrl . "/oauth/v2/";
     $clientId = $config['parameters']['api_client_id']; // API Client ID from /admin/api-token page
@@ -32,7 +32,9 @@ if (!$accessToken) {
     $accessToken = $tokenData['access_token'];
 
     // Store token for a expires time form token
-    apcu_store('access_token', $accessToken, $tokenData['expires_in']);
+    if (function_exists('apcu_store')) {
+        apcu_store('access_token', $accessToken, $tokenData['expires_in']);
+    }
 }
 
 echo 'Access token: ' . $accessToken;
