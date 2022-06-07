@@ -48,7 +48,7 @@ Send PUT request to the proper product's endpoint `api/v3/products/<product_id>.
 
 ## Cross-sells and Up-sells
 
-To add some product as cross-sell send POST to the following endpoint `api/v3/products/9/<product_id>/xsells.json`
+To add some product as cross-sell send POST to the following endpoint `api/v3/products/<product_id>/xsells.json`
 ```json
 {
     "product": <cross_product_id>,
@@ -56,7 +56,7 @@ To add some product as cross-sell send POST to the following endpoint `api/v3/pr
 }
 ```
 
-To add some product as up-sell send POST to the following endpoint `api/v3/products/9/<product_id>/extras.json`
+To add some product as up-sell send POST to the following endpoint `api/v3/products/<product_id>/extras.json`
 ```json
 {
     "product": <cross_product_id>,
