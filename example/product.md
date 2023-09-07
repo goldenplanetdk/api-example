@@ -46,6 +46,9 @@ Send PUT request to the proper product's endpoint `api/v3/products/<product_id>.
 }
 ```
 
+## Localization
+In order to get information in a non-default language or to change some localized field use  prefix with locale in URL, e.g. `de/api/v3/products.json`
+
 ## Cross-sells and Up-sells
 
 To add some product as cross-sell send POST to the following endpoint `api/v3/products/<product_id>/xsells.json`
