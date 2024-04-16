@@ -29,14 +29,14 @@ Send multiple operations in array using POST to `api/products/batches.json`:
       "method": "PUT",
       "body":
       {
-				  "id": "WSHOP999",
-				  "idField": "model",
-				  "variants":
+          "id": "WSHOP999",
+          "idField": "model",
+          "variants":
           [
             {
-						  "quantity": 4
+              "quantity": 4
             }
-				  ]
+          ]
       }
   }
 ]
@@ -101,22 +101,22 @@ Also you can use `api/products/variants/batches.json` to update specific variant
         }
     },
     {
-			  "method": "PUT",
-			  "body":
-			  {
-				  "id": "sm092",
-				  "idField": "model",
-				  "quantity": 2
-			  }
+        "method": "PUT",
+        "body":
+        {
+            "id": "sm092",
+            "idField": "model",
+            "quantity": 2
+        }
     },
     {
-			  "method": "PUT",
-			  "body":
-			  {
-				  "id": "34567899",
-				  "idField": "barcode",
-				  "quantity": 2
-			  }
+        "method": "PUT",
+        "body":
+        {
+            "id": "34567899",
+            "idField": "barcode",
+            "quantity": 2
+        }
     }
 ]
 ```
