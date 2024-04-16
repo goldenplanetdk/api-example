@@ -24,16 +24,32 @@ Send multiple operations in array using POST to `api/products/batches.json`:
           "main_category": 5,
           "is_enabled": true
       }
+  },
+  {
+      "method": "PUT",
+      "body":
+      {
+				  "id": "WSHOP999",
+				  "idField": "model",
+				  "variants":
+          [
+            {
+						  "quantity": 4
+            }
+				  ]
+      }
   }
 ]
 ```
 
-First operation will update product with id 11, second operation will create new product. 
+1st operation will update the product with an id 11, 
+2nd operation will create a new product. 
+3rd operation will update the quantity for the product with model WSHOP999. MAKE SURE you have only one product with this model
 
-There is no limit how many operations could be inside one request, you are limited with only length of POST request on our server. But we advise to start from 1000.
+There is no limit on how many operations can be inside one request, you are limited  only by the length of POST request on our server. But we advise  starting from 1000.
 
 If everything is valid batch command will be created and you will get ID of it in response.
-Use this to make GET request to `api/batches/<ID>.json` in order to obtain current status of batch command. You should get response like this:
+Use this to make GET request to `api/batches/<ID>.json` in order to obtain the current status of the batch command. You should get a response like this:
 
 ```json
 {
@@ -83,9 +99,33 @@ Also you can use `api/products/variants/batches.json` to update specific variant
         {
             "id": 231
         }
+    },
+    {
+			  "method": "PUT",
+			  "body":
+			  {
+				  "id": "sm092",
+				  "idField": "model",
+				  "quantity": 2
+			  }
+    },
+    {
+			  "method": "PUT",
+			  "body":
+			  {
+				  "id": "34567899",
+				  "idField": "barcode",
+				  "quantity": 2
+			  }
     }
 ]
 ```
 
-So 1st operation creates new variant for product with id 11, 
-and 2nd updates quantity of variant id:230, 3rd deletes variant:231
+So 
+1st operation creates a new variant for  the product with id 11, 
+2nd updates the quantity of variant id:230, 
+3rd deletes variant:231
+4th updates quantity for the variant with model sm092. MAKE SURE you have only one variant with this model
+5th updates quantity for the variant with barcode 34567899. MAKE SURE you have only one variant with this barcode
+
+
