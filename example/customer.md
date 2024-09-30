@@ -14,7 +14,8 @@ Send POST request to `api/v2/customers.json`:
         "mobile": "+4570209594",
         "street": "Dalbygade 40a",
         "zip": "6000"
-    }
+    },
+    "customer_group": "VIP"
 }
 ```
 
@@ -30,9 +31,11 @@ Send PUT request to `api/v2/customers/{customer}.json`:
         "billing_address": {
             "phone": "",
             "country": "DNK"
-        }
+        },
+        "customer_group": null
 }
 ```
+null removes relation
 
 ## Add shipping Address
 
