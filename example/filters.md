@@ -1,6 +1,6 @@
 # Filters
 
-Comparison operators are in FIQL notation and some of them has an alternative syntax as well:
+Comparison operators are in FIQL notation and some of them have an alternative syntax as well:
 
 Equal to: ==
 
@@ -26,20 +26,20 @@ Empty: =null=
 
 Not Empty: =not-null=
 
-Expression could have several comparsion separated with ; which is equivalent for logic AND or , which is equivalent for logic OR. OR comparsions could be grouped with parenthesis
+The expression could have several comparisons separated with `;` which is equivalent for logic `AND` or `,` which is equivalent to logic `OR`. `OR` comparisons could be grouped with parenthesis: `(conditionA,conditionB)`
 
 ## Orders
 
-Suppoted fields:
+Supported fields:
  
-id: numeric, ID of order
-name: text, name of customer
-email: text, email of customer
-customer: numeric, ID of customer
-status: numeric, ID of order's status
-created_at: date, created date 
-modified_at: date, modified date 
-model: text, product model
+`id`: numeric type, ID of order
+`name`: text, name of customer
+`email`: text, email of customer
+`customer`: numeric, ID of customer
+`status`: numeric, ID of order's status
+`created_at`: date, created date 
+`modified_at`: date, modified date 
+`model`: text, product model
 
 Examples
 
