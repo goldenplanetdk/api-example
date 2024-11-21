@@ -55,4 +55,5 @@ Examples
 - /api/v3/orders.json?filter=id=gte=1017
 - /api/v3/orders.json?filter=name=like=Yaroslav*
 - /api/v3/orders.json?filter=customer==1507;email==user@openbizbox.com;(name==Angelina Doe,name==John Doe)
+- /api/v3/orders.json?filter=customer=in=(1507,1509)
 ```
