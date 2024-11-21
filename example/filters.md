@@ -33,13 +33,21 @@ The expression could have several comparisons separated with `;` which is equiva
 Supported fields:
  
 `id`: numeric type, ID of order
+
 `name`: text, name of customer
+
 `email`: text, email of customer
+
 `customer`: numeric, ID of customer
+
 `status`: numeric, ID of order's status
+
 `created_at`: date, created date 
+
 `modified_at`: date, modified date 
+
 `model`: text, product model
+
 
 Examples
 
