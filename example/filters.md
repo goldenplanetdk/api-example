@@ -48,6 +48,8 @@ Supported fields:
 
 `model`: text, product model
 
+`shipping_method`: numeric type, ID of shipping module
+
 
 Examples
 
