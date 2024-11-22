@@ -14,9 +14,9 @@ Greater than operator: =gt=
 
 Greater than or equal to: =gte=
 
-In: =in=  (supported by numeric fields)
+In: =in=
 
-Not in: =not-in= (supported by numeric fields)
+Not in: =not-in=
 
 Contains: =like= (supported by text fields)
 
