@@ -60,3 +60,36 @@ Examples
 - /api/v3/orders.json?filter=customer=in=(1507,1509)
 - /api/v3/orders.json?filter=email=in=(olekirk@openbibox.com,ud@example.org)
 ```
+
+## Products
+
+Supported fields:
+ 
+`id`: numeric type, ID of product
+
+`model`: text, product or article model
+
+`mpn`: text, brand's model
+
+`gtin`: text, barcode
+
+`brand`: could be either id or title of a brand
+
+`supplier`: could be either id or title of a supplier
+
+`created_at`: date, created date 
+
+`modified_at`: date, modified date 
+
+`category`: numeric type, ID of category
+
+
+Examples
+
+```
+- /api/v3/products.json?filter=id=gte=10
+- /api/v3/products.json?filter=model=like=*512,model=like=acos1*
+- /api/v3/products.json?filter=suplier=!=1
+- /api/v3/products.json?filter=category=in=(1,3)
+- /api/v3/products.json?filter=brand=in=(Apple,Nokia)
+```
