@@ -88,8 +88,9 @@ Examples
 
 ```
 - /api/v3/products.json?filter=id=gte=10
-- /api/v3/products.json?filter=model=like=*512,model=like=acos1*
-- /api/v3/products.json?filter=suplier=!=1
-- /api/v3/products.json?filter=category=in=(1,3)
-- /api/v3/products.json?filter=brand=in=(Apple,Nokia)
+- /api/v3/products.json?filter=model=like=*512,model=like=acos1*  
+- /api/v3/products.json?filter=suplier=!=1 //products where supplier with ID not equals to 1
+- /api/v3/products.json?filter=category=in=(1,3) //products in categories with ID 1 or 3
+- /api/v3/products.json?filter=brand=in=(Apple,Nokia) //products with brand Apple or Nokia
+- /api/v3/products.json?filter=category=null=    //products without assigned categories
 ```
