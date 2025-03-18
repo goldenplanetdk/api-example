@@ -31,6 +31,23 @@ Get products starting from some ID(e.g. 1200):
 
 `api/v3/products.json?from=1200`
 
+## Relations assignment
+
+The assignment could be done by either id
+```json
+{
+    "brand": 1,
+    "supplier": 2
+}
+```
+
+.. or title. If an entity is missed it will be auto-created:
+```json
+{
+    "brand": "Apple",
+    "supplier": "Good supplier Inc."
+}
+```
 
 ## Relative stock update via API
 
