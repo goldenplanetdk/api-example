@@ -12,6 +12,7 @@
 ```
 
 ## Create new image with base64 body:
+"attribute_value" is optional parameter if you need to assign image to some specific attribute value.
 
 `api/v3/products/%ID%/images.json`
 
