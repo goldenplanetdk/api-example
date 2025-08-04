@@ -7,7 +7,7 @@ To create batch send multiple operations in array using POST to `api/batches.jso
     "method": "POST",
     "body":
     {
-      "title": "%{TestBatchProduct}%",
+      "title": "My shiny new product",
       "is_enabled": true,
       "variants": [
         {"quantity": 4}
@@ -39,7 +39,7 @@ To create batch send multiple operations in array using POST to `api/batches.jso
     {
       "name": "Luke Skywalker",
       "comment": "super cool",
-      "email": "%{RAND}%@virtmail.dev-planet.dk",
+      "email": "somedummy@email.tt",
       "street": "Unknown planet 1",
       "city": "Unknown city",
       "created_at": "2009-01-01 00:00:00",
