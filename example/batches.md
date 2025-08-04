@@ -1,4 +1,6 @@
 To create batch send multiple operations in array using POST to `api/batches.json`:
+You could use any available endpoind listed in `https://{yourdomain.dk}/api/doc`
+Just make sure that api token has proper scopes.
 
 ```json
 [
