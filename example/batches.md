@@ -44,8 +44,6 @@ Just make sure that api token has proper scopes.
       "email": "somedummy@email.tt",
       "street": "Unknown planet 1",
       "city": "Unknown city",
-      "created_at": "2009-01-01 00:00:00",
-      "modified_at": "2011-01-01 00:00:00",
       "zip": "123"
     }
   }
