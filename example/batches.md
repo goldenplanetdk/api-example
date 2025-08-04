@@ -15,6 +15,24 @@ To create batch send multiple operations in array using POST to `api/batches.jso
     }
   },
   {
+    "url": "/api/products/bymodel/variants/UNIQ-MODEL-99",
+    "method": "PUT",
+    "body":
+    {
+      "quantity": 4
+    }
+  },
+  {
+    "url": "/api/v3/products/bymodel/UNIQ-MODEL",
+    "method": "PUT",
+    "body":
+    {
+      "variants": [
+        {"quantity": 4}
+      ]
+    }
+  },
+  {
     "url": "/api/v3/customers",
     "method": "POST",
     "body":
