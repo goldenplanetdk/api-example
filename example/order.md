@@ -9,6 +9,7 @@ Send request to `api/v2/orders.json`:
   "customer": {
     "email": "user@openbizbox.com",
     "name": "Ludvig Forbes"
+    "original_customer": 1511,
   },
   "billing_address": {
     "name": "Ludvig Forbes",
