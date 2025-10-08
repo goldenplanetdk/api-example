@@ -18,3 +18,12 @@ send PUT request to variant PUT /api/v3/products/1/variants/1001.json
       ]
 }
 ```
+
+Also you can submit relative quantity changes, .e.g.
+PUT /api/v3/products/1/variants/1001.json
+
+```json
+{
+      "quantity_diff": -2
+}
+```
