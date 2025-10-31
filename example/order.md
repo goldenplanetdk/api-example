@@ -160,13 +160,13 @@ To remove all lines:
 ## Invoice
 
 Send POST request to `api/v3/orders/<order_id>/invoice.json?notify=true`
-No payload needed
+No payload needed. 
+"Notify" pareameter ios optional. If specified system will send an email using proper template (/admin/email/orderInvoice/)
 
 Or if you need to generate an invoice with exact id and/or date you can add payload:
 ```json
 {
   "id": 444,
-  "notify": true,
   "created_at": "2012-10-01 12:15"
 }
 ```
