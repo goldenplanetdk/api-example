@@ -2,7 +2,7 @@
 
 ## Create new order
 
-Send request to `api/v2/orders.json`:
+Send request to `api/v3/orders.json`:
 
 ```json
 {
@@ -100,7 +100,7 @@ If you need to create order with exact id and/or creation date do like this(work
 
 ## Update order
 
-To update lines data send  PUT request with such json to `api/v2/orders/<order_id>.json`::
+To update lines data send  PUT request with such json to `api/v3/orders/<order_id>.json`::
 ```json
 {
   "lines": {
@@ -114,7 +114,7 @@ To update lines data send  PUT request with such json to `api/v2/orders/<order_i
 ```
 It is important to keep same number of elements in products array, otherwise skipped lines will be removed. In this example the request edits data for 1st and 2nd lines, 3rd line stays as is.
 
-If you need to notify customer add notify=true, .e.g `api/v2/orders/<order_id>.json?notify=true`
+If you need to notify customer add notify=true, .e.g `api/v3/orders/<order_id>.json?notify=true`
 In this case system will send an email using default template assigned to the current order status.
 
 
@@ -174,7 +174,7 @@ Or if you need to generate an invoice with exact id and/or date you can add payl
 
 ## Refund
 
-To cancel full order just send an empty POST request to `api/v2/orders/<order_id>/refunds.json`.
+To cancel full order just send an empty POST request to `api/v3/orders/<order_id>/refunds.json`.
 By default order will be re-stock, if you don't want to restock send POST:
 ```json
 {
