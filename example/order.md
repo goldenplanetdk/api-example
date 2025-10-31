@@ -88,6 +88,16 @@ To create an order with lines:
 }
 ```
 
+If you need to create order with exact id and/or creation date do like this(works for POST only!):
+```json
+{
+  "id": 777,
+  "created_at": "2012-12-12 14:14",
+  ...
+}
+```
+
+
 ## Update order
 
 To update lines data send  PUT request with such json to `api/v2/orders/<order_id>.json`::
@@ -104,14 +114,9 @@ To update lines data send  PUT request with such json to `api/v2/orders/<order_i
 ```
 It is important to keep same number of elements in products array, otherwise skipped lines will be removed. In this example the request edits data for 1st and 2nd lines, 3rd line stays as is.
 
-If you need to create order with exact id and/or creation date do like this(works for POST only!):
-```json
-{
-  "id": 777,
-  "created_at": "2012-12-12 14:14",
-  ...
-}
-```
+If you need to notify customer add notify=true, .e.g `api/v2/orders/<order_id>.json?notify=true`
+In this case system will send an email using default template assigned to the current order status.
+
 
 ### Add new line
 Let's imagine you want to add new product line to the order with 2 product lines:
@@ -154,14 +159,10 @@ To remove all lines:
 
 ## Invoice
 
-Send POST request to `api/v2/orders/<order_id>/invoice.json`:
-```json
-{
-  "notify": true
-}
-```
+Send POST request to `api/v3/orders/<order_id>/invoice.json?notify=true`
+No payload needed
 
-Or if you need to generate an invoice with exact id and/or date:
+Or if you need to generate an invoice with exact id and/or date you can add payload:
 ```json
 {
   "id": 444,
