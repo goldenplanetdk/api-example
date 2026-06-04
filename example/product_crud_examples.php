@@ -263,8 +263,7 @@ $product = createProduct($apiClient, [
 	'is_enabled' => true,
 	'attribute_setting' => [
 		'is_image_per_attribute_value'    => true,
-		'is_use_image_attribute_selector' => false,
-		'attribute'                       => 2, // attribute id
+		'is_use_image_attribute_selector' => false
 	],
 ]);
 print_r($product);
