@@ -58,7 +58,7 @@ For the fast paths the job is already `done` on your first poll - that is normal
 client created.** Someone else's job id returns `404`, the same as an id that does not exist, so
 ids cannot be probed.
 
-### Retries are safe
+### Retries are safe - and the same rule can block you
 
 Repeating an identical request while its job is still running - or within ten minutes of it
 finishing - returns **`200` with the same job** instead of `202` with a new one. Nothing is applied
@@ -67,6 +67,24 @@ get a handle on the work already in flight.
 
 Two requests are "identical" when the client, the endpoint and the payload all match. Key order and
 the order of ids inside `categories`, `brands` etc. do not matter.
+
+**Read the status code.** This is not only a safety net - it is also a lock, and it is the one
+thing about this API most likely to surprise you:
+
+- `202` means *your* call started the work.
+- `200` means an identical job already existed and **nothing was applied for this call**.
+
+That distinction matters when you legitimately want to run the same operation twice. Re-applying
+the same campaign an hour after your catalogue changed is a new piece of work to you, but an
+identical request to the API - if the earlier job is still inside its window you get `200` and no
+new work. There is no way to force a re-run and no `Retry-After` header, so:
+
+- **Always branch on `200` versus `202`**, and treat `200` as "already done, check the job" rather
+  than as success for this call.
+- If you need the work to actually happen, `GET /api/v3/jobs/{id}` and look at `finished_at` -
+  that tells you *when* the run you were folded into happened, which `200` alone does not.
+- If a job is stuck `queued` or `running`, wait for it to finish rather than retrying in a loop;
+  a retry cannot displace it.
 
 ## Selecting products
 
@@ -249,6 +267,14 @@ Remove takes no `preset` - it detaches whatever preset the matching products car
   as an HTTP error - so always read `status` rather than trusting the status code alone. Validation
   errors, unknown ids and a missing selection happen *before* the job exists and are ordinary
   `400`s.
+- **Deleting a preset is `204`, deleting a campaign is `202` + a job.** Deleting a preset does not
+  change any price, so there is nothing to report; deleting a campaign unwinds the discount from
+  every product it touched. If you write one generic delete handler, account for both.
+- **`reindex_scheduled` is only present when a reindex was actually queued** - always for a bulk
+  price change, only on tier-priced shops for presets, never for campaigns. Treat a missing key as
+  "not applicable", not as `false`.
+- A `GET` returns fields a `PUT` will not accept - `id`, `status`, `created_at`, `_links`. Read,
+  modify and send back **only the writable fields**; posting the whole document back is a `400`.
 - **Relation ids must exist.** An unknown category or brand id is a field-level `400`; nothing is
   auto-created, unlike product features.
 - `is_notify` is accepted on a campaign for round-trip compatibility but does nothing over the API -

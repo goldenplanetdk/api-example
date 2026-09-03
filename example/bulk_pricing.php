@@ -82,9 +82,15 @@ echo '  products: ' . $job['result']['products'] . ', variants: ' . $job['result
 
 
 /* ---------------------------------------------------------------------------
- * 2. Retrying an identical request is safe
+ * 2. Retrying an identical request is safe - and the same rule can block you
  *    Same client, same endpoint, same payload while the job is still fresh gives
  *    200 and the SAME job back - the increase is not applied a second time.
+ *
+ *    Read that status code. 202 means this call started the work; 200 means an
+ *    identical job already existed and NOTHING was applied for this call. There
+ *    is no way to force a re-run, so if you genuinely want the same operation to
+ *    happen again, either wait out the window or check the job's finished_at to
+ *    see when the run you were folded into actually happened.
  * ------------------------------------------------------------------------- */
 
 list($retried, $status) = runBulk($apiClient, 'POST', '/api/v3/products/bulk/price.json', [
