@@ -172,6 +172,15 @@ Or if you need to generate an invoice with exact id and/or date you can add payl
 ```
 
 
+## Capture
+
+Send an empty POST request to `api/v3/orders/<order_id>/capture.json` to charge an order that an
+online payment module only authorized at checkout. No payload; the whole outstanding amount is
+captured. `204` means the gateway approved it, `400` carries the module's error text.
+
+See [order_capture.md](order_capture.md) for the preconditions, the auto-capture setting that may
+have charged the order already, and why a capture must never be retried blindly.
+
 ## Refund
 
 To cancel full order just send an empty POST request to `api/v3/orders/<order_id>/refunds.json`.
