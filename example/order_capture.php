@@ -36,7 +36,14 @@ $confirmed = false; // set to true once you accept that this charges the custome
  * always read the status code, never the body, to decide whether it worked.
  */
 function send($apiClient, $method, $path) {
-	$response = $apiClient->request($method, $path, ['http_errors' => false]);
+	// Content-Length is not optional, even with nothing to send: a POST that declares no body
+	// length is rejected with a bodiless 400 by the proxy in front of the shop, before the
+	// endpoint runs. Guzzle sets it for a request with a body; set it explicitly when there
+	// is none.
+	$response = $apiClient->request($method, $path, [
+		'headers'     => ['Content-Length' => '0'],
+		'http_errors' => false,
+	]);
 	$raw = (string)$response->getBody();
 	return [json_decode($raw, true), $response->getStatusCode(), $raw];
 }

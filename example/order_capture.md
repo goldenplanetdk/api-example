@@ -11,11 +11,13 @@ talk to the gateway yourself. v3 only.
 | Read the order back | `GET /api/v3/orders/{order_id}.json` |
 | Refund (the opposite) | `POST /api/v3/orders/{order_id}/refunds.json` — see [order.md](order.md) |
 
-Needs the `order_write` scope. There is **no payload** and no query parameter.
+Needs the `order_write` scope. There is **no payload** and no query parameter — but the request
+must still declare a body length, see [Send a Content-Length](#send-a-content-length) below.
 
 ```bash
 curl -i -XPOST 'http://SHOP_DOMAIN/api/v3/orders/1015/capture.json' \
-  -H 'Authorization: Bearer ACCESS_TOKEN'
+  -H 'Authorization: Bearer ACCESS_TOKEN' \
+  -H 'Content-Length: 0'
 ```
 
 ```
@@ -25,6 +27,29 @@ HTTP/1.1 204 No Content
 A `204` with an empty body is the success answer: the gateway approved the capture and the order's
 `captured` total has been raised. Nothing is returned, so read the order back if you want the
 numbers.
+
+## Send a Content-Length
+
+A bodiless POST still has to say that its body is empty. A POST or PUT that carries **neither
+`Content-Length` nor `Transfer-Encoding`** never reaches the shop: the proxy in front of it answers
+`400` with an empty body, before authentication, so nothing appears in any shop log and nothing on
+the order changes. `curl -XPOST` with no `-d` sends exactly such a request, and so do HTTP clients
+that drop the header when the payload is empty.
+
+```bash
+# 400 Bad Request, empty body - rejected by the proxy, the shop never sees it
+curl -XPOST '.../capture.json' -H 'Authorization: Bearer TOKEN'
+
+# reaches the endpoint
+curl -XPOST '.../capture.json' -H 'Authorization: Bearer TOKEN' -H 'Content-Length: 0'
+```
+
+Sending `{}` as the body works just as well. This is not specific to capture — it applies to every
+bodiless POST or PUT in the API, including the invoice and refund endpoints.
+
+**Telling the two 400s apart:** a proxy rejection has no `x-varnish` / `via` response header and an
+empty body; an answer from the endpoint itself went through Varnish and carries the payment
+module's error text.
 
 ## How much is captured
 
@@ -53,6 +78,7 @@ Capture fails, rather than being queued, unless all of these hold:
 | Status | Body | Meaning |
 |---|---|---|
 | `204` | empty | Captured. |
+| `400` | empty, **no `x-varnish` header** | The request declared no body length and was rejected by the proxy — the endpoint never ran. See above. |
 | `400` | empty | The order's payment method is not an online payment module. |
 | `400` | the error text, as a JSON string | The gateway refused, or a precondition failed — e.g. `"No QuickPay transaction ID found"`, `"Capture failed: ..."`, `"Invalid capture amount"`. |
 | `401` / `403` | — | The token is missing or lacks `order_write`. |

@@ -178,6 +178,10 @@ Send an empty POST request to `api/v3/orders/<order_id>/capture.json` to charge 
 online payment module only authorized at checkout. No payload; the whole outstanding amount is
 captured. `204` means the gateway approved it, `400` carries the module's error text.
 
+An "empty POST" here — and for the invoice and refund endpoints above — must still send
+`Content-Length: 0`. A POST that declares no body length at all is rejected with a bodiless `400`
+by the proxy in front of the shop, before the endpoint runs and without anything in the logs.
+
 See [order_capture.md](order_capture.md) for the preconditions, the auto-capture setting that may
 have charged the order already, and why a capture must never be retried blindly.
 
