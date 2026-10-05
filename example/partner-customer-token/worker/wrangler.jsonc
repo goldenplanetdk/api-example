@@ -1,0 +1,23 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "partner-token-example",
+	"main": "src/index.js",
+	"compatibility_date": "2026-10-05",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
+	"vars": {
+		"GP_SHOP": "shop.example.com",
+		"GP_CLIENT_ID": "<the public client id the shop gave you>",
+		"ALLOWED_ORIGIN": "https://shop.example.com",
+		"DAILY_LIMIT": "5"
+	}
+	// The client secret is a secret, never a var:
+	//   wrangler secret put GP_CLIENT_SECRET
+	//
+	// Optional per-customer quota — without this binding the limit is not enforced:
+	//   wrangler kv namespace create QUOTA
+	// "kv_namespaces": [{ "binding": "QUOTA", "id": "<id from the command above>" }]
+}

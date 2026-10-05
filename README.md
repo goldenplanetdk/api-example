@@ -85,3 +85,15 @@ $orders = json_decode($response->getBody(), true);
 ### Run
  
 `php ./example/get_token_guzzle.php`
+
+## Identifying the logged-in customer (storefront integrations)
+
+Everything above identifies the **shop**: an OAuth token says nothing about who is browsing it. If
+your service is embedded in a shop's storefront and needs to know which customer is in front of it —
+to gate a feature on being logged in, or to count usage per customer — see
+[`example/partner-customer-token`](example/partner-customer-token).
+
+The shop issues a short-lived token signed with your own API client secret, so no new key has to be
+exchanged, and the customer's password and session cookie never reach you. That directory has the
+storefront half, a PHP verifier, and a complete backend you can deploy as-is while your real service
+is being built.
