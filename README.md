@@ -52,7 +52,7 @@ $accessToken = $tokenData['access_token'];
 
 Using **bash**
 ```bash
-curl -XGET  'http://SHOP_DOMAIN/api/v1/orders?access_token=ACCESS_TOKEN&limit=2&from=2'
+curl -XGET  'http://SHOP_DOMAIN/api/v2/orders?access_token=ACCESS_TOKEN&limit=2&from=2'
 ```
 
 Using **php** Guzzle library
