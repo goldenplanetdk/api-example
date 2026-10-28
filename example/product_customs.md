@@ -68,8 +68,9 @@ Only when the **shop is in the EU and the shipping address is outside the EU**:
 | inside the EU, or a shop outside the EU | nothing |
 
 The origin is printed next to the code, and is hidden when no code is printed. The shop can turn
-the lines off under *Layout → Print → Invoice*. Orders keep a copy of the customs data taken when
-the order was placed, so changing a product later never changes an existing invoice.
+the lines off under *Layout → Print → Invoice*. The invoice reads the product's **current** customs
+data when it is printed — orders keep no copy — so a change here also shows on invoices of orders
+already placed.
 
 ## Create
 
@@ -156,7 +157,8 @@ classified — create the record with `POST`.
 
 ## Deleting
 
-`DELETE` answers `204` with an empty body. Existing orders are unaffected; they keep their own copy.
+`DELETE` answers `204` with an empty body. Invoices printed afterwards, including those of existing
+orders, no longer show customs lines for the product.
 
 ## Bulk
 
