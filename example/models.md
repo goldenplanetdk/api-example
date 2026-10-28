@@ -41,3 +41,19 @@ If you know model of variant you can use it to update it. Send PUT request to `a
   "quantity": 10
 }
 ```
+
+## Customs data by model
+
+Customs data (HS code, market codes, country of origin) can be read and written by the model of the
+product or of any of its variants. Send PUT request to `api/v3/products/bymodel/<model>/customs.json`:
+
+```json
+{
+  "hs_code": "610910",
+  "origin_country": "PT"
+}
+```
+
+`GET`, `POST` and `DELETE` work on the same path. A model that does not fit in a path can go in the
+query instead: `api/v3/products/bymodel/customs.json?model=<url-encoded model>`. See
+`product_customs.md` for the fields and the answers.

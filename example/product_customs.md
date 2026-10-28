@@ -15,7 +15,7 @@ One record per **product** — not per variant. All variants of a product share 
 | Delete | `DELETE /api/v3/products/{productId}/customs.json` |
 
 Reads need the `product_read` scope, writes `product_write`. The record is addressed by the
-**product id**, not by its own `id`.
+**product id**, not by its own `id` — or by **model**, see [By model](#by-model).
 
 ## The resource
 
@@ -155,6 +155,35 @@ status code, never on the message text.
 or it exists but has no customs data yet. The second is the normal answer for a product nobody has
 classified — create the record with `POST`.
 
+## By model
+
+If your shop uses the model as SKU, address the record by model instead of the product id. Every
+call above has a by-model twin with the same body, answers and scopes:
+
+| What | Endpoint |
+|---|---|
+| Read one | `GET /api/v3/products/bymodel/{model}/customs.json` |
+| Create | `POST /api/v3/products/bymodel/{model}/customs.json` |
+| Update | `PUT /api/v3/products/bymodel/{model}/customs.json` |
+| Delete | `DELETE /api/v3/products/bymodel/{model}/customs.json` |
+
+The model may be the **product's** model or the model of **any of its variants** — models are
+unique across both. Customs data stays per product, so every variant model of a product reaches the
+same record: writing through one variant's model changes it for all of them.
+
+A model with characters that are awkward in a path (`?`, `#`, `%`, spaces) can go in the query
+string instead — URL-encode it:
+
+```
+PUT /api/v3/products/bymodel/customs.json?model=TS%2F100%20BLUE
+```
+
+| Answer | Means |
+|---|---|
+| `400` `Missing "model".` | the query form was used without `model` |
+| `404` `Product not found` | no product or variant has this model |
+| `404` on read, update or delete | the product exists but has no customs data yet |
+
 ## Deleting
 
 `DELETE` answers `204` with an empty body. Invoices printed afterwards, including those of existing
@@ -164,4 +193,4 @@ orders, no longer show customs lines for the product.
 
 For many products at once, use the CSV import in the admin (*Catalog → Customs data → Import CSV*,
 columns `SKU`, `HsCode`, `EuCode`, `NoCode`, `GbCode`, `UsCode`, `OriginCountry`), or send these
-calls through `POST /api/v3/batches` (see `batches.md`).
+calls — by id or by model — through `POST /api/v3/batches` (see `batches.md`).

@@ -35,6 +35,15 @@ Just make sure that api token has proper scopes.
     }
   },
   {
+    "url": "/api/v3/products/bymodel/UNIQ-MODEL/customs",
+    "method": "PUT",
+    "body":
+    {
+      "hs_code": "610910",
+      "origin_country": "PT"
+    }
+  },
+  {
     "url": "/api/v3/customers",
     "method": "POST",
     "body":

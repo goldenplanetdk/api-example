@@ -4,14 +4,15 @@
  *
  * Customs data is the HS code, the national tariff codes per market (EU export, Norway,
  * United Kingdom, United States) and the country of origin of a product. One record per
- * product, addressed by the product id.
+ * product, addressed by the product id or by model.
  * Demonstrates:
  *   1. creating the record, with codes written in any spacing
  *   2. reading it back, and the 404 a product without customs data gives
  *   3. a partial PUT: change one code, clear another
  *   4. listing them, and the paginated envelope the list comes back in
  *   5. the ways a request gets refused
- *   6. deleting it again
+ *   6. the same record addressed by model instead of id
+ *   7. deleting it again
  *
  * See product_customs.md for the reference documentation.
  *
@@ -28,6 +29,7 @@
 require "get_token_guzzle.php";
 
 $productId = 101; // replace with a product id from your shop
+$model = '';       // optional: the model of that product or of one of its variants, for section 6
 $path = '/api/v3/products/' . $productId . '/customs';
 
 /**
@@ -151,10 +153,37 @@ printErrors('unknown field', $status, $body);
 
 
 /* ---------------------------------------------------------------------------
- * 6. Delete
+ * 6. By model
+ *
+ * Shops that use the model as SKU can skip the id: /products/bymodel/{model}/customs
+ * takes the model of the product or of any of its variants and reaches the same record.
+ * A model that is awkward in a path goes URL-encoded in the query of
+ * /products/bymodel/customs instead.
  * ------------------------------------------------------------------------- */
 
-echo "\n\n6. Delete\n";
+echo "\n\n6. By model\n";
+
+if ($model === '') {
+	echo "skipped: set \$model to run it\n";
+} else {
+	[$customs, $status] = send($apiClient, 'GET', '/api/v3/products/bymodel/' . $model . '/customs');
+	echo 'read by model: HTTP ' . $status . ', product ' . $customs['product_id'] . "\n"; // the same $productId
+
+	[$customs, $status] = send($apiClient, 'PUT', '/api/v3/products/bymodel/customs?model=' . rawurlencode($model), [
+		'origin_country' => 'BD',
+	]);
+	echo 'update by model (query form): HTTP ' . $status . ', origin ' . $customs['origin_country'] . "\n";
+}
+
+[$body, $status] = send($apiClient, 'GET', '/api/v3/products/bymodel/NO-SUCH-MODEL/customs');
+echo 'unknown model: HTTP ' . $status . ' ' . $body['message'] . "\n"; // 404 Product not found
+
+
+/* ---------------------------------------------------------------------------
+ * 7. Delete
+ * ------------------------------------------------------------------------- */
+
+echo "\n\n7. Delete\n";
 
 [$body, $status] = send($apiClient, 'DELETE', $path);
 echo 'delete: HTTP ' . $status . "\n"; // 204
