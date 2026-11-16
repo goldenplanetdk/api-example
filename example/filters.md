@@ -124,6 +124,32 @@ The products endpoint supports filtering on the following fields:
 /api/v3/products.json?filter=model=not-null=
 ```
 
+## Event Endpoint
+
+Base URL: `/api/v3/events.json` (see [events.md](events.md))
+
+### Available Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | numeric | Event identifier, grows with every new event |
+| `name` | text | Event name, e.g. `order.created`, `product.updated` |
+| `type` | numeric | Event type number, e.g. `1` for `order.created` |
+| `created_at` | date | When the event was recorded (shop time zone) |
+
+### Example Event Queries
+
+```
+# Everything after the last event you handled
+/api/v3/events.json?filter=id=gt=4180
+
+# All order events
+/api/v3/events.json?filter=name=like=order.*
+
+# New and changed orders since a given time
+/api/v3/events.json?filter=name=in=(order.created,order.updated);created_at=gte=2026-11-16 00:00:00
+```
+
 ## Best Practices
 
 1. **Use Specific Filters**: Always try to use the most specific filter possible to reduce server load and improve response times.
