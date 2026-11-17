@@ -127,3 +127,6 @@ An attribute value can also be addressed by its external id:
   **no attribute title at all** - only `attribute_id`. Use v3 if you want to work by title.
 - Unknown attribute and value titles are created immediately, so a typo leaves a real attribute
   behind in the shop. Read the list back after a bulk import.
+- Every feature write that changes something, a delete-only request included, refreshes the
+  product on the storefront within a few seconds, with no admin save needed. See
+  [Storefront refresh after API writes](product.md#storefront-refresh-after-api-writes).
