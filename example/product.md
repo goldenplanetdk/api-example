@@ -85,3 +85,26 @@ To add some product as up-sell send POST to the following endpoint `api/v3/produ
 ```
 
 To list cross-sells and up-sells use same endpoints with GET
+
+## Storefront refresh after API writes
+
+The storefront picks up a product written over the API by itself, with no save in the admin
+needed. The shop refreshes the product in the background right after the request returns, so a
+change shows within a few seconds rather than at once.
+
+These writes refresh the product on their own:
+
+- a product PUT (by id or by model) that changes any product field: title, short and long
+  description, SEO title, meta description and keywords, note, price, `is_enabled` and so on, in
+  any language (see [Localization](#localization))
+- [meta fields](meta.md): adding, changing and removing them
+- [features](features.md): `PUT`, `POST` and `DELETE` on `/features`, and the `features` field of
+  a product PUT
+- variants, categories and tier prices sent in a product PUT
+
+A write that changes nothing, such as posting a feature the product already has, refreshes
+nothing, and there is nothing to refresh.
+
+Not covered yet: when products are deleted and created again, product lists such as the featured
+products on the front page or related products may stay stale until the admin uses
+*Misc. settings → Purge cache*. There is no API call to clear the storefront cache.
