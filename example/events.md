@@ -30,7 +30,7 @@ curl -G 'http://SHOP_DOMAIN/api/v3/events.json' \
 
 ```json
 {
-  "page": 1, "limit": 100, "pages": 1, "total": 2,
+  "page": 1, "limit": 100, "pages": 1, "total": 3,
   "_links": {"self": {"href": "/api/v3/events.json?page=1&limit=100"}, "…": "…"},
   "_embedded": {
     "resources": [
@@ -46,7 +46,10 @@ curl -G 'http://SHOP_DOMAIN/api/v3/events.json' \
         "path": "/checkout/…",
         "source": "…",
         "is_cli_mode": false,
-        "note": null
+        "note": null,
+        "ip": null,
+        "user_agent": null,
+        "api_client": null
       },
       {
         "id": 4186,
@@ -60,7 +63,27 @@ curl -G 'http://SHOP_DOMAIN/api/v3/events.json' \
         "path": "/admin/…",
         "source": "…",
         "is_cli_mode": false,
-        "note": null
+        "note": null,
+        "ip": "203.0.113.17",
+        "user_agent": "Mozilla/5.0 (…) Chrome/131.0 Safari/537.36",
+        "api_client": null
+      },
+      {
+        "id": 4190,
+        "name": "product.updated",
+        "type": 21,
+        "created_at": "2026-11-16T11:02:55+01:00",
+        "data": {"id": 2210, "…": "…"},
+        "changed_fields": {"articles": {"7314": {"localQuantity": {"before": 12, "after": 9}}}},
+        "admin_id": null,
+        "customer_id": null,
+        "path": "/api/v3/products/2210/variants/7314",
+        "source": "Openbizbox\\ApiBundle\\Controller\\V1\\ProductVariantController::putProductVariantAction",
+        "is_cli_mode": false,
+        "note": null,
+        "ip": "198.51.100.24",
+        "user_agent": "axios/0.21.4",
+        "api_client": {"id": 12, "name": "Stock sync"}
       }
     ]
   }
@@ -81,8 +104,27 @@ curl -G 'http://SHOP_DOMAIN/api/v3/events.json' \
 | `source` | The controller that handled the request, or for a cron job the command line (`'sales:aggregate'`). |
 | `is_cli_mode` | `true` when a cron job or console command made the change, not a web request. |
 | `note` | Why the system made the change, when it says. For example, a bundle that was turned off because one of its products sold out. |
+| `api_client` | The API app whose access token made the change: `{"id": 12, "name": "Stock sync"}`. `name` is the app's title in the shop admin (or its alias) when the event was recorded, and is left out when the app has neither. `null` for changes made in the storefront, by an admin user or by a cron job of their own. This is the most reliable way to tell apart the services that write through the API: their user agents and IPs can change. |
+| `ip` | The IP address of the request that made the change. Only for API and admin requests, see below. |
+| `user_agent` | The `User-Agent` header of that request, for example `axios/0.21.4` or `python-requests/2.34.2`. Only for API and admin requests, see below. |
 
-The IP address and user agent of the request are recorded too, but they are **not** shown.
+A field without a value is left out of the response rather than sent as `null` (the examples above
+show the `null`s for clarity), so read a missing field as `null`.
+
+#### Who made the change: `ip` and `user_agent`
+
+The IP address of a shopper is personal data, so `ip` and `user_agent` are shown only when the
+change was made **through the API** (the event has an `api_client`, or its `path` starts with
+`/api/`) or **by an admin user** (`admin_id` is set). They are `null` for everything else: a guest
+or logged-in customer in the storefront (an order, a review, a newsletter signup), and a cron job
+of its own. Any token with the `read` scope sees them under this rule; there is no extra scope.
+
+A cron job that finishes work started by an API or admin request (`is_cli_mode` is `true`, for
+example the follow-up of a bulk update) has the `api_client`, `ip` and `user_agent` of that
+request.
+
+Events recorded before the shop started storing the API client have no `api_client`. Their `ip`
+and `user_agent` are shown under the same rule, when the shop stored them.
 
 ### Event names
 
@@ -135,6 +177,8 @@ Combine conditions with `;` (AND) and `,` (OR). URL-encode the whole value: `cur
 - The old parameters work too: `from=4180` is `id=gt=4180`, and `created_from=2 days` means
   "created in the last two days". They are **ignored when `filter` is present**, so don't mix the
   two styles.
+- `api_client`, `ip` and `user_agent` cannot be filtered on. Filter on them in your own code
+  while you read the list.
 - Filtering on any other field, such as `modified_at`, answers `500`, not `400`. Events never
   change, so they have no modification date.
 
