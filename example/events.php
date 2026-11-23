@@ -53,19 +53,24 @@ function expectList($body, $status) {
 }
 
 /**
- * One line per event: id, time, name, who or what made the change, and the changed fields.
+ * One line per event: id, time, name, who or what made the change (the API app first: it tells
+ * the services that write through the API apart), and the changed fields.
  */
 function showEvent(array $event) {
-	if ($event['admin_id']) {
+	// Fields without a value are left out of the response, hence the "?? null".
+	$app = $event['api_client'] ?? null;
+	if ($app) {
+		$by = 'app ' . ($app['name'] ?? '#' . $app['id']) . (isset($event['user_agent']) ? " ({$event['user_agent']})" : '');
+	} elseif ($event['admin_id'] ?? null) {
 		$by = 'admin #' . $event['admin_id'];
-	} elseif ($event['customer_id']) {
+	} elseif ($event['customer_id'] ?? null) {
 		$by = 'customer #' . $event['customer_id'];
-	} elseif ($event['is_cli_mode']) {
-		$by = 'cron ' . $event['source'];
+	} elseif ($event['is_cli_mode'] ?? false) {
+		$by = 'cron ' . ($event['source'] ?? '');
 	} else {
-		$by = 'web ' . $event['path'];
+		$by = 'web ' . ($event['path'] ?? '');
 	}
-	$changed = $event['changed_fields'] ? implode(',', array_keys($event['changed_fields'])) : '-';
+	$changed = !empty($event['changed_fields']) ? implode(',', array_keys($event['changed_fields'])) : '-';
 
 	echo sprintf("  #%-7d %s  %-22s %-30s changed: %s\n",
 		$event['id'], $event['created_at'], $event['name'], $by, $changed);
