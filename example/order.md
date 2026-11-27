@@ -370,7 +370,8 @@ You can omit amount and quantity, in this case this line will be fully refunded.
             "price": 0.99,
             "tax_title": "",
             "tax_rate": 0,
-            "weight": 0
+            "weight": 0,
+            "extra_fees": []
         },
         "taxes": [
             {
@@ -393,3 +394,38 @@ You can omit amount and quantity, in this case this line will be fully refunded.
     }
 }
 ```
+
+### Shipping line and extra fees
+
+An order can hold more than one shipping line: the carrier line, plus extra lines that belong to it,
+such as a CO2 or packaging fee. `lines.shipping` merges them into one object:
+
+- `title`, `extra_data` and `weight` come from the carrier line.
+- `price` and `price_with_tax` are the totals of the carrier line **and** all its extra fees.
+- `extra_fees` lists each extra line on its own, with `price` and `price_with_tax` per fee.
+
+To get the carrier's own price, subtract `extra_fees` from the shipping line:
+
+```json
+"shipping": {
+    "title": "Post Nord - Pakkeboks Danmark",
+    "price": 41.18,
+    "price_with_tax": 51.48,
+    "extra_data": {
+        "method": "pickup",
+        "services": ["email"],
+        "point": 8602
+    },
+    "extra_fees": [
+        {
+            "title": "Emballageafgift (Statsafgift)",
+            "price": 1.98,
+            "price_with_tax": 2.48,
+            "tax_rate": "0.2500",
+            "tax_title": "Heraf moms 25%"
+        }
+    ]
+}
+```
+
+Here Post Nord costs 51.48 - 2.48 = 49.00 incl. VAT.
